@@ -37,5 +37,21 @@ Route::get('guru', [GuruController::class, 'index']);
 
 Auth::routes();
 
-Route::get('admin/home', [App\Http\Controllers\HomeController::class, 'index'])->name('admin.home')->middleware('is_admin');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::group(['middleware' => ['web','admin']], function () {
+    Route::get('admin/home', [App\Http\Controllers\HomeController::class, 'adminHome'])->name('admin.home')->middleware('is_admin');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    // Route::get('/', function () {
+    //     if (Auth::user()->admin == 1) {
+    //         # code...
+    //         return view('adminHome');
+    //     } else {
+    //         # code...
+    //         return view('home');
+    //     }
+        
+    // });
+});
+
